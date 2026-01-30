@@ -47,4 +47,20 @@ exports.loginController = async(req,res)=>{
     }
 }
 
+// update user profile
+exports.editUserPictureController = async(req,res)=>{
+    console.log("inside editUserPictureController");
+    const picture = req.file
+    const email = req.payload
+    try{
+      const existingUser = await users.findOne({email})
+      existingUser.picture = picture.filename 
+      await existingUser.save()
+      res.status(200).json(existingUser)
+    }catch(err){
+        console.log(err);
+        res.status(500).json(err)
+    }
+}
+
 
