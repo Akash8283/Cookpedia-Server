@@ -26,3 +26,31 @@ exports.getApprovedFeedbackController = async(req,res)=>{
         res.status(500).json(err)
     }
 }
+
+// get all feedback
+exports.getAllFeedbackController = async(req,res)=>{
+  console.log("inside getAllFeedbackController");
+  try{
+    const allFeedbacks = await feedbacks.find()
+    res.status(200).json(allFeedbacks)
+  }catch(err){
+        console.log(err);
+        res.status(500).json(err)
+    }
+}
+
+// updtae feedback status
+exports.updtaeFeedbackStatusController = async(req,res)=>{
+  console.log("inside updtaeFeedbackStatusController");
+  const {id} = req.params
+  const {status} = req.body
+  try{
+    const existingFeedbacks = await feedbacks.findById({_id:id})
+    existingFeedbacks.status = status
+    await existingFeedbacks.save()
+    res.status(200).json(existingFeedbacks)
+  }catch(err){
+        console.log(err);
+        res.status(500).json(err)
+    }
+}

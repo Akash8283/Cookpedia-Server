@@ -63,4 +63,15 @@ exports.editUserPictureController = async(req,res)=>{
     }
 }
 
+// get all users
+exports.getAllUserController = async(req,res)=>{
+    console.log("inside getAllUserController");
+    try{
+      const allUser = await users.find({role:{$eq:"user"}})
+      res.status(200).json(allUser)
+    }catch(err){
+        console.log(err);
+        res.status(500).json(err)
+    }
+}
 

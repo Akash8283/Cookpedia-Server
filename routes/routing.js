@@ -3,6 +3,7 @@ const recipeController = require('../contollers/recipeController')
 const userController = require('../contollers/userController')
 const downloadContoller = require('../contollers/downloadController')
 const jwtMiddlware = require('../middleware/jwtMiddleware')
+const adminMiddlware = require('../middleware/adminMiddleware')
 const saveController = require('../contollers/saveController')
 const feedbackController = require('../contollers/feedbackController')
 const multerMiddleware = require('../middleware/multerMiddleware')
@@ -48,6 +49,21 @@ router.get('/user-downloads',jwtMiddlware,downloadContoller.getUserDownloadListC
 
 // edit user picture
 router.put('/user-edit',jwtMiddlware,multerMiddleware.single('picture'),userController.editUserPictureController)
+
+// get all users
+router.get('/user-list',adminMiddlware,userController.getAllUserController)
+
+// get all download lsit
+router.get('/downloads',adminMiddlware,downloadContoller.getDownloadListController)
+
+// get all feedbacks
+router.get('/feedbacks',adminMiddlware,feedbackController.getAllFeedbackController)
+
+// update feedback status
+router.put('/feedbacks/:id',adminMiddlware,feedbackController.updtaeFeedbackStatusController)
+
+// add recipe
+router.post('/recipes',adminMiddlware,recipeController.addRecipeController)
 
 
 module.exports = router
