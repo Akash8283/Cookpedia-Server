@@ -58,3 +58,32 @@ exports.addRecipeController = async(req,res)=>{
         res.status(500).json(err)
     }
 }
+
+// delete recipe 
+exports.deleteRecipeController = async(req,res)=>{
+    console.log("inside deleteRecipeController");
+    const {id} = req.params
+    try{
+      const removeRecipe = await recipes.findByIdAndDelete({_id:id})
+      res.status(200).json(removeRecipe)
+    }catch(err){
+        console.log(err);
+        res.status(500).json(err)
+    }
+}
+
+// edit recipe
+exports.editRecipeController = async(req,res)=>{
+    console.log("inside editRecipeController");
+    const {id} = req.params
+    const {name,ingredients,instructions,prepTimeMinutes,cookTimeMinutes,servings,difficulty,cuisine,caloriesPerServing,image,mealType} = req.body
+    try{
+      const updateRecipe = await recipes.findByIdAndUpdate({_id:id},{
+        name,ingredients,instructions,prepTimeMinutes,cookTimeMinutes,servings,difficulty,cuisine,caloriesPerServing,image,mealType
+      },{new:true})
+      res.status(200).json(updateRecipe)
+    }catch(err){
+        console.log(err);
+        res.status(500).json(err)
+    }
+}
